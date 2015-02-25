@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title>Test</title>
+</head>
+<body>
+	<!-- ng repeat: arrays -->
+	<ul ng-init="arr = ['when','where','what']">
+		<li ng-repeat="a in arr">{{ $index + ' : ' + a }}</li>
+	</ul>
+
+	<!-- ng repeat: objects -->
+	<ul ng-init="obj = {fname: 'harish', lname: 'mehta'}">
+		<li ng-repeat="o in obj">{{ $index + ' : ' + o }}</li>
+	</ul>
+
+	<!-- ng repeat: objects -->
+	<ul ng-init="obj = {fname: 'harish', lname: 'mehta'}">
+		<li ng-repeat="(k,v) in obj">{{ k + ' : ' + v }}</li>
+	</ul>
+
+	<!-- filters: arguments -->
+	<p>{{ 1234.57663 | number:3 }}</p>
+
+	<!-- filters -->
+	<div ng-controller='TestController'>
+		<input type='text' placeholder='type something' ng-model='toSearch'>	
+		<ul>
+			<li ng-repeat="l in list | filter:toSearch ">{{ l }}</li>
+		</ul>
+		<ul>
+			<li ng-repeat="al in anotherList">{{ al }}</li>
+		</ul>
+
+	</div>
+
+	<!-- custom filter -->
+	<input type='text' placeholder='type something' ng-model='toTransform'>	
+	<p>{{ toTransform | uppercase | myFilter:false }}</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+<script type="text/javascript">
+	angular.module('app', [])
+////////////////////////////////////		ANOTHER WAY		////////////////////////////////////////////////	
+//		.controller('TestController', ['$scope', 'filterFilter', function( $scope, filterFilter ){	// <filter-name>filter
+//			$scope.list  = ['a','ab','A','b','BC','G','z'];
+//			$scope.$watch( 'toSearch', function( newValue, oldValue ){
+//				$scope.anotherList = filterFilter( $scope.list, newValue );
+//			});
+//		}]);
+
+		.controller('TestController', ['$scope', '$filter', function( $scope, $filter ){	// <filter-name>Filter
+			$scope.list  = ['a','ab','A','b','BC','G','z'];
+			$scope.$watch( 'toSearch', function( newValue, oldValue ){
+				$scope.anotherList = $filter('filter')( $scope.list, newValue );
+			});
+		}])
+		.filter('myFilter', [function(){
+			return function(input, arg){
+				input = input || ' ';
+
+				if(arg) {	// uppercase
+					return input.toUpperCase();
+				} else {	// lowercase
+					return input.toLowerCase();
+				}
+			};
+		}]);
+
+</script>
+</body>
+</html>
