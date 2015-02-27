@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+</head>
+<body>
+
+    <!-- form -->
+    <div ng-controller="TestController">
+        <form name='testInfo' ng-submit="saveInfo()">
+            <input name='name' type="text" placeholder='name' ng-model='name'> <br>
+            <input name='age' type="number" placeholder='age' ng-model='age'> <br>
+            <input type="submit" value='save'>
+            <input type="button" value='reset' ng-click='resetInfo()'> <br>
+            <p>
+                {{ 'error object' + testInfo.name.$error }}
+            </p>
+            <p>
+                {{ 'error object' + testInfo.age.$error }}
+            </p>
+
+        </form>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        angular.module('app', [])
+        .controller('TestController', [ '$scope', function( $scope ){
+            $scope.info = {
+                'name': '',
+                'age': ''
+            };
+
+            $scope.saveInfo = function() {
+                $scope.info = angular.copy({'name':$scope.name,'age':$scope.age});
+            };
+
+            $scope.resetInfo = function() {
+               $scope.name = $scope.info.name;
+               $scope.age = $scope.info.age;
+            };
+
+        }])
+        ;
+    </script>
+</body>
+</html>
