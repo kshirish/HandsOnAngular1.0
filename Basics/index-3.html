@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title>Test</title>
+	<style type="text/css">
+		.style1 {
+			font-family: Arial;
+		}	
+		.style2 {
+			color: green;
+		}	
+		.style3 {
+			font-size: 30px;
+		}	
+		[ng\:cloak], [ng-cloak], .ng-cloak {
+		  display: none !important;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Angular DOM -->
+	<button ng-disabled='myswitch' ng-init='myswitch=true'>Press</button>
+	<p ng-show='myswitch'>paragraph</p>
+	<p ng-if='myswitch'>another paragraph</p>	<!-- element as well as their handler removed -->
+	
+	<div ng-controller='TestController'>
+		<div ng-bind-html='temp'></div>	
+	</div>
+
+	<!-- ngclass -->
+	<p ng-class="{style1:false,style2:true,style3:true}">
+		hello world!	
+	</p>
+
+	<!-- ngcloak: avoid flickering -->
+	<p ng-init='myVar="angularJS"' ng-cloak>
+		{{myVar}}	
+	</p>
+
+	<!-- nginclude -->
+	<div ng-include="'test.html'">		
+	</div>
+	
+	<div ng-include src="'angTemplate.html'">		
+	</div>
+
+	<script type="text/ng-template" id="angTemplate.html">
+	  Content of the template.
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+	<script type="text/javascript">
+		angular.module('app',[])
+		.controller('TestController', ['$scope', function($scope){
+		}])
+		;	
+	</script>
+</body>
+</html>
