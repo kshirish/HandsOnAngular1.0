@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+</head>
+<body>
+
+    <!-- custom directive -->
+    <div ng-controller='AController'>
+        <custom-div>{{message}}</custom-div>
+    </div>
+
+    <div ng-controller='BController'>
+        <custom-div></custom-div>
+    </div>
+    
+    <!-- isolated scope -->
+    <div ng-controller='CController'>
+        <another-div info='personA'></another-div>
+        <another-div info='personB'></another-div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        angular.module('app', [])
+        .controller('AController',['$scope', function($scope){
+            $scope.person = {
+                name: 'A',
+                age: 21
+            };
+            $scope.someProperty = 'World';
+            $scope.message = 'Message to humanity!';
+        }])
+        .controller('BController',['$scope', function($scope){
+            $scope.person = {
+                name: 'B',
+                age: 33
+            };
+            $scope.someProperty = 'Hello';
+        }])
+        .controller('CController',['$scope', function($scope){
+            $scope.personA = {
+                name: 'A',
+                age: 21
+            };
+            $scope.personB = {
+                name: 'B',
+                age: 33
+            };
+            $scope.someProperty = 'Hello';
+        }])
+        .directive('customDiv', function(){
+            return {
+                restrict: 'E',
+                transclude: true,                       //it makes the contents of a directive to access  
+                templateUrl: function(el, attr){        //scope outside of the directive rather than inside.
+                    //console.log( attr );
+                    return 'custom-div.html';   
+                }
+            };     
+        })
+        .directive('anotherDiv', function(){
+            return {
+                restrict: 'E',
+                scope: {
+                    personInfo: '=info'
+                },
+                templateUrl: function(el, attr){
+                    return 'another-div.html';   
+                },
+                link: function( scope, el, attr ){
+                    console.log( el.html() );
+
+                    el.on('$destroy', function(){
+                        console.log('directive has been deleted !');
+                    }); 
+                }
+            };     
+        })        
+        ;
+    </script>
+</body>
+</html>
