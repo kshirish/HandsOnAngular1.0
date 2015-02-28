@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+</head>
+<body>
+
+    <!-- service -->
+    <div ng-controller="TestController">
+    	<input type='checkbox' ng-init='checkVal=false' ng-change="changed()" ng-model='checkVal'>GET <br>
+    	<input type='button' ng-click="cancelTimeout()" value='Cancel'><br>
+    	<p>{{response}}</p>
+	</div>	
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        angular.module('app', [])
+        .controller('TestController', ['$scope', '$http', '$timeout', '$log', function($scope, $http, $timeout, $log){
+    		var config = {
+    			url : 'http://jsonplaceholder.typicode.com/comments',
+    			method: 'GET',
+    			params: {
+    				postId: 1
+    			},
+    			cache: true,
+    			responseType: 'JSON'
+    		},
+    		promise,
+    		timePromise,
+    		successCallback = function(d) {
+    			$scope.response = d.data;
+    		},
+    		errorCallback = function(d) {
+   				$scope.response = 'Error: '+d.status;       			
+    		}
+    		;
+
+        	$scope.changed = function(){
+        		if($scope.checkVal) {
+        			promise = $http(config);
+        			promise.then(successCallback,errorCallback);
+        			;
+        		}
+        	};
+        	$scope.cancelTimeout = function(){
+        		if($timeout.cancel(timePromise)) {
+        			$log.log('Cancelled!')
+        		}
+        	};
+
+        	timePromise = $timeout(function() {
+        		$log.log('Timedout!');
+        	}, 5000);
+
+        }])
+        ;
+    </script>
+</body>
+</html>
