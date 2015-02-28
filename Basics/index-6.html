@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+</head>
+<body>
+
+    <!-- catch and emit -->
+    <div ng-controller="AnimalController">
+    	<input type='text' ng-model='animalValue'>
+        <input type='button' ng-click='broadAnimal(animalValue)' value='press'><br>
+        <div ng-controller="DogController">
+            <input type='text' ng-model='dogValue'>
+            <input type='button' ng-click='emitDog(dogValue)' value='press'><br>
+        </div>  
+	</div>	
+
+    <div ng-controller="VehicleController">
+        <input type='text' >
+        <input type='button' value='press'><br>
+        <div ng-controller="CarController">
+            <input type='text' ng-model='carValue'>
+            <input type='button' ng-click='broadCar(carValue)' value='press'><br>
+        </div>  
+    </div>  
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        angular.module('app', [])
+        .controller('DogController', ['$scope', function($scope){
+            $scope.dogValue = 'XYZ';
+
+            $scope.emitDog = function(x) {
+                $scope.$emit('dogCatch', x );
+            };
+
+            $scope.$on('animalCatch', function( e, data ){
+                console.log('caught', data );
+            });
+
+            $scope.$on('carCatch', function( e, data ){
+                console.log('caught', data );
+            });
+
+        }])    
+        .controller('AnimalController', ['$scope', function($scope){
+            $scope.animalValue = 'ABC';
+
+            $scope.$on('dogCatch', function( e, data ){
+                console.log('caught', data );
+            });
+
+            $scope.broadAnimal = function(x){
+                $scope.$broadcast('animalCatch', x);
+            };
+
+            $scope.$on('carCatch', function( e, data ){
+                console.log('caught', data );
+            });
+        }])    
+        .controller('VehicleController', ['$scope', function($scope){
+
+            $scope.$on('carCatch', function( e, data ){
+                console.log('caught', data );
+            });
+            
+        }])    
+        .controller('CarController', ['$scope', '$rootScope', function($scope, $rootScope){
+            $scope.carValue = '123';
+
+            $scope.broadCar = function(x){
+                $rootScope.$broadcast('carCatch',x)    
+            };
+        }])            
+        ;
+    </script>
+</body>
+</html>
