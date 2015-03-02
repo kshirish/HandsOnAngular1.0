@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Test</title>
+</head>
+<body>
+
+    
+    <h1>Hands On</h1>
+    <a href="#/all">Go to all</a>
+    <div ng-view></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.26/angular-route.js"></script>
+    <script>
+        angular.module('app', ['ngRoute'])
+		.config(['$routeProvider', function( $routeProvider ) {
+			$routeProvider
+				.when('/all', {
+					templateUrl: 'list.html',
+					controller: 'ListController',
+					controllerAs: 'listC'
+				})
+				.when('/all/:profilename', {
+					templateUrl: 'profile.html',
+					controller: 'ProfileController',
+					controllerAs: 'profileC'
+				})
+                .otherwise({
+                    redirectTo: '/'
+                })
+                ;
+
+		}])
+        .controller('ListController', ['$scope', '$routeParams', function( $scope, $routeParams ) {
+        	$scope.list = [ 'Tom', 'Dick', 'Harry' ];
+        	$scope.params = $routeParams;
+        }])
+        .controller('ProfileController', ['$scope', '$routeParams', function( $scope, $routeParams ) {
+        	$scope.detail = {
+        		tom: {
+        			age: 21,
+        			city: 'New York'
+        		},
+        		dick: {
+        			age: 44,
+        			city: 'Delhi'
+        		},
+        		harry: {
+        			age: 10,
+        			city: 'London'
+        		}
+        	};
+        	$scope.params = $routeParams;
+        }])        
+        ;
+    </script>
+</body>
+</html>
