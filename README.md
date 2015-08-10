@@ -13,8 +13,8 @@
 
 ## Directive
 
-- *Observing directives*: `ng-model` or `{{expression}}` registers listeners using the `$watch()` method. This type of directive needs to be notified whenever the expression changes so that it can update the view.
-- *Listener directives*: `ng-click` registers a listener with the DOM. When the DOM listener fires, the directive executes the associated expression and updates the view using the `$apply()` method.
+- **Observing directives**: `ng-model` or `{{expression}}` registers listeners using the `$watch()` method. This type of directive needs to be notified whenever the expression changes so that it can update the view.
+- **Listener directives**: `ng-click` registers a listener with the DOM. When the DOM listener fires, the directive executes the associated expression and updates the view using the `$apply()` method.
 
 ## Angular Event Loop
 
