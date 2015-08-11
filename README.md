@@ -37,6 +37,15 @@ the interpolation sets up a `$watch` to be notified of name changes.
 - Angular exits the execution context, which in turn exits the keydown event and with it the JavaScript execution context.
 - The browser re-renders the view with update text.
 
+## $scope.$apply()
+- Each time you change some watched variable attached to the $scope object directly, Angular will know that the change has happened. This is because Angular already knew to monitor those changes. So if it happens in code managed by the framework, the digest cycle will carry on. However, sometimes you want to change some value outside of the Angular world and see the changes propagate normally. Consider this - you have a `$scope.myVar` value which will be modified within a jQuery's `$.ajax()` handler. This will happen at some point in future. Angular can't wait for this to happen, since it hasn't been instructed to wait on jQuery. To tackle this, `$apply` has been introduced. It lets you to start the digestion cycle explicitly. However, you should only use this to migrate some data to Angular (integration with other frameworks), but never use this method combined with regular Angular code, as Angular will throw an error then.
+- There are two ways of declaring a $scope variable as being watched.
+  - By using it in your template via expression: `<span>{{myVar}}</span>`
+  - By adding it manually via $watch service
+
+## $evalAsync vs $timeout
+
+- If you truly want to execute code at a later point in time, use `$timeout()`. However, if your only goal is tell AngularJS about a data change without throwing a `$digest already in progress` error, then go for `$scope.$evalAsync()`.
 
 ## References
 
