@@ -42,6 +42,7 @@ the interpolation sets up a `$watch` to be notified of name changes.
 - There are two ways of declaring a $scope variable as being watched.
   - By using it in your template via expression: `<span>{{myVar}}</span>`
   - By adding it manually via $watch service
+- Prefer `$apply(fn)` instead of  `$apply()`, because the function call is wrapped inside a `try...catch` block, and any exceptions that occur will be passed to the `$exceptionHandler` service.
 
 ## $evalAsync vs $timeout
 
@@ -50,3 +51,4 @@ the interpolation sets up a `$watch` to be notified of name changes.
 ## References
 
 - [Angular Docs](https://docs.angularjs.org/)
+- [Understanding apply and digest](http://www.sitepoint.com/understanding-angulars-apply-digest/)
