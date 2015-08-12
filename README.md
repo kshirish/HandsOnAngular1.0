@@ -95,7 +95,9 @@ $scope.$watch("mohan.hash", function() {
 - Prefer `$apply(fn)` instead of  `$apply()`, because the function call is wrapped inside a `try...catch` block, and any exceptions that occur will be passed to the `$exceptionHandler` service.
 
 ## Styleguide
- - **Bad:**
+
+- **Bad:**
+
  ```js
 var app = angular.module('app', []);
 app.controller();
