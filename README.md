@@ -44,6 +44,33 @@ the interpolation sets up a `$watch` to be notified of name changes.
 
 - If you truly want to execute code at a later point in time, use `$timeout()`. However, if your only goal is tell AngularJS about a data change without throwing a `$digest already in progress` error, then go for `$scope.$evalAsync()`.
 
+## Angular events
+
+- Unsubscribing from angular events:
+```js
+var removeListener = $scope.$on("someEvent", function listener() {});
+
+// while subscribing to `someEvent`, `$on` return a function which can be used to degister `listener`
+removeListener();
+
+```
+- `$destroy()`
+```js
+  $scope.$on('$destroy', function() {
+    /** When this scope will be destroyed, you are given a chance to do a final cleanup.
+    * It also implies that the current scope is now eligible for garbage collection.
+    */
+  });
+```
+- Cancelling events
+```js
+
+$scope.$on('myCustomEvent', function (event, data) {
+  event.stopPropagation();  // prevents it from bubbling further  
+});
+
+```
+
 ## Best practices
 
 - Don’t clutter up the digest cycle by adding more variables( global ) to `$rootScope`, rather use Angular’s explicit event features like `emit` and `broadcast`.
@@ -67,7 +94,103 @@ $scope.$watch("mohan.hash", function() {
 ```
 - Prefer `$apply(fn)` instead of  `$apply()`, because the function call is wrapped inside a `try...catch` block, and any exceptions that occur will be passed to the `$exceptionHandler` service.
 
+## Styleguide
+ - **Bad:**
+ ```js
+var app = angular.module('app', []);
+app.controller();
+app.factory();
+ ```
+ 
+**Good:**
+```js
+angular
+  .module('app', [])
+  .controller()
+  .factory();
+```
+
+ - **Bad:**
+ ```js
+var app = angular.module('app', []);
+app.controller('MyCtrl', function ($scope) {
+  
+});
+ ```
+ 
+**Good:**
+```js
+app = angular.module('app', []);
+  .controller('MyController', ['$scope', function MyController($scope) {
+  
+  }]); 
+```
+
+ - **Bad:**
+ ```js
+ function MainCtrl () {
+  this.doSomething = function () {
+
+  };
+}
+angular
+  .module('app')
+  .controller('MainCtrl', MainCtrl);
+ ```
+ 
+**Good:**
+```js
+function MainCtrl (SomeService) {
+  this.doSomething = SomeService.doSomething;
+}
+angular
+  .module('app')
+  .controller('MainCtrl', MainCtrl);
+```
+
+ - **Bad:**
+ ```js
+ function AnotherService () {
+
+  var someValue = '';
+
+  var someMethod = function () {
+
+  };
+  
+  return {
+    someValue: someValue,
+    someMethod: someMethod
+  };
+
+}
+angular
+  .module('app')
+  .factory('AnotherService', AnotherService);
+ ```
+ 
+**Good:**
+```js
+ function AnotherService () {
+
+  var AnotherService = {};
+  
+  AnotherService.someValue = '';
+
+  AnotherService.someMethod = function () {
+
+  };
+  
+  return AnotherService;
+}
+angular
+  .module('app')
+  .factory('AnotherService', AnotherService);
+```
+
+ 
 ## References
 
 - [Angular Docs](https://docs.angularjs.org/)
 - [Understanding apply and digest](http://www.sitepoint.com/understanding-angulars-apply-digest/)
+- [Styleguide](http://toddmotto.com/opinionated-angular-js-styleguide-for-teams/)
