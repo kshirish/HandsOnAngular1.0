@@ -14,7 +14,7 @@
 	{{anotherValue}}
 	<br>
 
-	<!-- execute only once -->
+	<!-- executes only once -->
 	<input	type='text' placeholder='type something' ng-model='val'/>
 	{{::val}}
 	<br>
@@ -27,9 +27,9 @@
 	<!-- no access to global variables i.e. window, document -->	
 	<button ng-click="window.alert('dfg')">press</button>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
-<script type="text/javascript">
-	var app = angular.module('app', []);
-</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+	<script type="text/javascript">
+		var app = angular.module('app', []);
+	</script>
 </body>
 </html>

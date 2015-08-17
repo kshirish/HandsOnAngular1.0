@@ -15,6 +15,7 @@
     <script>
         angular.module('app', [])
         .controller('TestController', ['$scope', '$http', '$timeout', '$log', function($scope, $http, $timeout, $log){
+            
     		var config = {
     			url : 'http://jsonplaceholder.typicode.com/comments',
     			method: 'GET',
@@ -38,9 +39,9 @@
         		if($scope.checkVal) {
         			promise = $http(config);
         			promise.then(successCallback,errorCallback);
-        			;
         		}
         	};
+
         	$scope.cancelTimeout = function(){
         		if($timeout.cancel(timePromise)) {
         			$log.log('Cancelled!')

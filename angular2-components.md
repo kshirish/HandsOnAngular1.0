@@ -24,7 +24,7 @@ class MyComponent {
   // constructor and a lot more        
 }
 ```
-** *Do not rely on code yet, it is changing frequently.*
+*Do not rely on code yet, it is changing frequently.*
 
 - Property and event bindings are the public API of a component.
 - Angular 2 embraces web platform standards, so it puts the view of the component in the Shadow DOM of the element where it has been created.
