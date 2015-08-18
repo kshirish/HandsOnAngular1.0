@@ -44,6 +44,10 @@ the interpolation sets up a `$watch` to be notified of name changes.
 
 - If you truly want to execute code at a later point in time, use `$timeout()`. However, if your only goal is tell AngularJS about a data change without throwing a `$digest already in progress` error, then go for `$scope.$evalAsync()`.
 
+## Compile vs Link
+- [Difference](http://stackoverflow.com/questions/12164138/what-is-the-difference-between-compile-and-link-function-in-angularjs)
+- [Example](http://stackoverflow.com/questions/13852248/how-to-write-a-double-and-a-ntimes-directive-for-angularjs/13873098#13873098)
+
 ## Angular events
 
 - Unsubscribing from angular events:
