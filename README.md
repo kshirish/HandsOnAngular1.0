@@ -15,6 +15,7 @@
 
 ## Angular Event Loop
 
+- https://www.sitepoint.com/understanding-angulars-apply-digest/
 - Enter the Angular execution context by calling `scope.$apply(fn)`, where `fn` is the function you wish to execute in the Angular context.
 - Angular executes the `fn()`, which typically modifies application state
 - Angular enters the `$digest` loop. The loop is made up of two smaller loops which process `$evalAsync` queue and the `$watch` list. The `$digest` loop keeps iterating until the model stabilizes, which means that the `$evalAsync` queue is empty and the `$watch` list does not detect any changes.
